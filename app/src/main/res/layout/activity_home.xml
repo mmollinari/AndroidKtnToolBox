@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/isen_logo" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/home_welcome"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <ImageView
+        android:id="@+id/lifeCycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimary"
+        android:padding="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/data"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@android:drawable/stat_notify_chat" />
+
+    <TextView
+        android:id="@+id/lifeCycleTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/home_lifecycle"
+        app:layout_constraintEnd_toEndOf="@+id/lifeCycle"
+        app:layout_constraintStart_toStartOf="@+id/lifeCycle"
+        app:layout_constraintTop_toBottomOf="@+id/lifeCycle" />
+
+    <ImageView
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="false"
+        android:background="@color/colorPrimary"
+        android:cropToPadding="false"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lifeCycle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/lifeCycle"
+        app:layout_constraintTop_toTopOf="@+id/lifeCycle"
+        app:srcCompat="@android:drawable/stat_notify_sdcard" />
+
+    <TextView
+        android:id="@+id/dataTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_save"
+        app:layout_constraintEnd_toEndOf="@+id/data"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/data"
+        app:layout_constraintTop_toTopOf="@+id/lifeCycleTitle" />
+
+    <ImageView
+        android:id="@+id/permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:padding="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivWebservice"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lifeCycleTitle"
+        app:srcCompat="@android:drawable/stat_sys_speakerphone" />
+
+    <TextView
+        android:id="@+id/permissionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/home_permission"
+        app:layout_constraintEnd_toEndOf="@+id/permission"
+        app:layout_constraintStart_toStartOf="@+id/permission"
+        app:layout_constraintTop_toBottomOf="@+id/permission" />
+
+    <ImageView
+        android:id="@+id/ivWebservice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/permission"
+        app:layout_constraintTop_toTopOf="@+id/permission"
+        app:srcCompat="@android:drawable/stat_sys_download" />
+
+    <TextView
+        android:id="@+id/tvWebservice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_webservices"
+        app:layout_constraintEnd_toEndOf="@+id/ivWebservice"
+        app:layout_constraintStart_toStartOf="@+id/ivWebservice"
+        app:layout_constraintTop_toTopOf="@+id/permissionTitle" />
+
+    <ImageView
+        android:id="@+id/ibDeconnexion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+</android.support.constraint.ConstraintLayout>

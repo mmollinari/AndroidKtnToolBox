@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">AndroidKtnToolBox</string>
+
+    <string name="login_connection">Connexion</string>
+    <string name="login_validate">Valider</string>
+    <string name="login_login">Identifiant</string>
+    <string name="login_password">Mot de passe</string>
+
+    <string name="home_welcome">Bonjour</string>
+    <string name="home_lifecycle">Cycle de vie</string>
+    <string name="home_save">Sauvegarde</string>
+    <string name="home_permission">Permissions</string>
+    <string name="home_webservices">Webservices</string>
+
+    <string name="storage_title">Accès au fichier</string>
+    <string name="storage_name">Nom</string>
+    <string name="storage_first_name">Prenom</string>
+    <string name="storage_date">Date : &#160;</string>
+    <string name="storage_date_value">../../..</string>
+    <string name="storage_age">Age : &#160;</string>
+    <string name="storage_show">Lecture</string>
+    <string name="storage_save">Sauvegarde</string>
+
+    <string name="permission_title">Accès aux informations Android</string>
+    <string name="permission_loading">Chargement de la position …</string>
+    <string name="permission_location">Latitude : %1$f \nLongitude : %2$f</string>
+</resources>
