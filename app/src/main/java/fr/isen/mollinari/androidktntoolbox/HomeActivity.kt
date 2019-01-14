@@ -13,18 +13,25 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         lifeCycle.setOnClickListener{
-            val intent = Intent(this@HomeActivity, LifeCycleActivity::class.java)
-            startActivity(intent)
+            goToActivity(LifeCycleActivity::class.java)
         }
 
         data.setOnClickListener {
-            val intent = Intent(this@HomeActivity, StorageActivity::class.java)
-            startActivity(intent)
+            goToActivity(StorageActivity::class.java)
+        }
+
+        permission.setOnClickListener {
+            goToActivity(PermissionActivity::class.java)
         }
 
         ibDeconnexion.setOnClickListener {
             logOut()
         }
+    }
+
+    private fun goToActivity(destClass: Class<*>) {
+        val intent = Intent(this@HomeActivity, destClass)
+        startActivity(intent)
     }
 
     private fun logOut() {

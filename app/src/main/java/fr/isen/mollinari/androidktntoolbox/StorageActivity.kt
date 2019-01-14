@@ -66,21 +66,30 @@ class StorageActivity : AppCompatActivity() {
     }
 
     private fun saveDataToFile(name: String, firstName: String, date: String) {
-        val fos: FileOutputStream
-        val file = getFileStreamPath(JSON_FILE)
-        try {
-            fos = openFileOutput(JSON_FILE, Context.MODE_PRIVATE)
-            Log.i("StorageActivity", "chemein du fichier : ${file.path}")
-            val data =
-                "{ 'nom': '$name', 'prenom': '$firstName', 'date_naissance': '$date' }"
-            fos.write(data.toByteArray())
-            fos.close()
-            Toast.makeText(this@StorageActivity, "Sauvegarde des informations de l'utilisateur", Toast.LENGTH_LONG).show()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            e.message
+        if (name.isNotEmpty() && firstName.isNotEmpty() && date != getString(R.string.storage_date_value)) {
+            val fos: FileOutputStream
+            val file = getFileStreamPath(JSON_FILE)
+            try {
+                fos = openFileOutput(JSON_FILE, Context.MODE_PRIVATE)
+                Log.i("StorageActivity", "chemein du fichier : ${file.path}")
+                val data =
+                    "{ 'nom': '$name', 'prenom': '$firstName', 'date_naissance': '$date' }"
+                fos.write(data.toByteArray())
+                fos.close()
+                Toast.makeText(
+                    this@StorageActivity,
+                    "Sauvegarde des informations de l'utilisateur",
+                    Toast.LENGTH_LONG
+                ).show()
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+                e.message
+            }
+        }
+        else {
+            Toast.makeText(this@StorageActivity, "Un champs n'a pas été renseigné par l'utilisateur l'utilisateur", Toast.LENGTH_SHORT).show()
         }
 
     }
