@@ -30,19 +30,55 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
     private val REQUEST_CODE = 11
     private val PERMISSIONS_REQUEST_READ_CONTACTS = 22
     private val PERMISSIONS_ACCESS_COARSE_LOCATION = 33
+    private val PERMISSIONS_REQUEST_READ_AND_LOCATION = 44
     private lateinit var locationManager: LocationManager
+    private lateinit var permissionsNotGranted: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
 
-        showContacts()
-        showCurrentPosition()
+        permissionsNotGranted = getAllPermissionNotGranted()
+
+        if(permissionsNotGranted.isEmpty()) {
+            showContacts()
+            showCurrentPosition()
+        }
+        else {
+            requestPermission()
+        }
     }
 
     public override fun onStop() {
         super.onStop()
         locationManager.removeUpdates(this)
+    }
+
+    private fun getAllPermissionNotGranted(): Array<String> {
+        val listOfPermission = mutableListOf<String>()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            listOfPermission.add(Manifest.permission.READ_CONTACTS)
+        }
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            listOfPermission.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        return listOfPermission.toTypedArray()
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            permissionsNotGranted,
+            PERMISSIONS_REQUEST_READ_AND_LOCATION
+        )
     }
 
     fun getPickFromGallery(v: View) {
@@ -52,17 +88,9 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
     }
 
     private fun showContacts() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.READ_CONTACTS),
-                PERMISSIONS_REQUEST_READ_CONTACTS
-            )
-        } else {
-            val contacts = getContactNames()
-            val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, contacts)
-            listContact.adapter = adapter
-        }
+        val contacts = getContactNames()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, contacts)
+        listContact.adapter = adapter
     }
 
     private fun getContactNames(): List<String> {
@@ -83,22 +111,19 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
 
     private fun showCurrentPosition() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                this@PermissionActivity,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                PERMISSIONS_ACCESS_COARSE_LOCATION
-            )
-        } else {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 1f, this)
             val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             if (location != null) {
-                display.text = getString(R.string.permission_location, location.latitude, location.longitude)
+                display.text = getString(
+                    R.string.permission_location,
+                    location.latitude,
+                    location.longitude
+                )
             }
         }
     }
@@ -109,11 +134,13 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
         grantResults: IntArray
     ) {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION) {
+            if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION || requestCode == PERMISSIONS_REQUEST_READ_AND_LOCATION) {
                 showCurrentPosition()
-            } else if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            }
+            if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS || requestCode == PERMISSIONS_REQUEST_READ_AND_LOCATION) {
                 showContacts()
             }
+
         } else {
             Toast.makeText(this, "Permission refusée par l'utilisateur", Toast.LENGTH_SHORT).show()
         }
@@ -140,7 +167,8 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        display.text = getString(R.string.permission_location, location.latitude, location.longitude)
+        display.text =
+                getString(R.string.permission_location, location.latitude, location.longitude)
     }
 
     override fun onProviderDisabled(provider: String) {
