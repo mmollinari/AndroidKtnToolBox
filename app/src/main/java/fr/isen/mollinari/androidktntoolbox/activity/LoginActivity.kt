@@ -1,4 +1,4 @@
-package fr.isen.mollinari.androidktntoolbox
+package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.content.Context
 import android.content.Intent
@@ -6,9 +6,8 @@ import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_login.identifiant
-import kotlinx.android.synthetic.main.activity_login.loginAction
-import kotlinx.android.synthetic.main.activity_login.password
+import fr.isen.mollinari.androidktntoolbox.R
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -41,12 +40,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun doLogin() {
-        val login = identifiant.text.toString()
+        val ident = login.text.toString()
         val mdp = password.text.toString()
 
-        if (GOOD_IDENTIFIANT == login && GOOD_MDP == mdp) {
-            saveUserCredential(login, mdp)
-            goToHome(login, false)
+        if (GOOD_IDENTIFIANT == ident && GOOD_MDP == mdp) {
+            saveUserCredential(ident, mdp)
+            goToHome(ident, false)
         } else {
             Toast.makeText(
                 this@LoginActivity,

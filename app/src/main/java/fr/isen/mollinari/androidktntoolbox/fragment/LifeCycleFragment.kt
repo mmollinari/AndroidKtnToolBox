@@ -1,4 +1,4 @@
-package fr.isen.mollinari.androidktntoolbox
+package fr.isen.mollinari.androidktntoolbox.fragment
 
 
 import android.content.Context
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import fr.isen.mollinari.androidktntoolbox.activity.LifeCycleActivity
+import fr.isen.mollinari.androidktntoolbox.R
 
 
 class LifeCycleFragment : Fragment() {

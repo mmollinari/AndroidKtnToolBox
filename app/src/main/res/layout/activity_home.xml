@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".activity.HomeActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -84,7 +84,7 @@
         android:layout_marginTop="30dp"
         android:background="@color/colorPrimary"
         android:padding="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/ivWebservice"
+        app:layout_constraintEnd_toStartOf="@+id/webservice"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lifeCycleTitle"
@@ -101,7 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/permission" />
 
     <ImageView
-        android:id="@+id/ivWebservice"
+        android:id="@+id/webservice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -113,16 +113,16 @@
         app:srcCompat="@android:drawable/stat_sys_download" />
 
     <TextView
-        android:id="@+id/tvWebservice"
+        android:id="@+id/webserviceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/home_webservices"
-        app:layout_constraintEnd_toEndOf="@+id/ivWebservice"
-        app:layout_constraintStart_toStartOf="@+id/ivWebservice"
+        app:layout_constraintEnd_toEndOf="@+id/webservice"
+        app:layout_constraintStart_toStartOf="@+id/webservice"
         app:layout_constraintTop_toTopOf="@+id/permissionTitle" />
 
     <ImageView
-        android:id="@+id/ibDeconnexion"
+        android:id="@+id/deconnection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"

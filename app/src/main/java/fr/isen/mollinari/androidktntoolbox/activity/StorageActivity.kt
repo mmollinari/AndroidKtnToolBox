@@ -1,4 +1,4 @@
-package fr.isen.mollinari.androidktntoolbox
+package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.View
 import android.widget.Toast
+import fr.isen.mollinari.androidktntoolbox.R
 import kotlinx.android.synthetic.main.activity_storage.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -30,28 +30,28 @@ class StorageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_storage)
 
         val cal = Calendar.getInstance()
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
             val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH)
-            dateValue.text = sdf.format(cal.time)
+            date.text = sdf.format(cal.time)
         }
 
         save.setOnClickListener {
-            saveDataToFile(lastName.text.toString(), firstName.text.toString(), dateValue.text.toString())
+            saveDataToFile(lastName.text.toString(), firstName.text.toString(), date.text.toString())
         }
 
         show.setOnClickListener {
             showDataFromFile()
         }
 
-        date.setOnClickListener {
+        dateTitle.setOnClickListener {
             showDatePicker(cal, dateSetListener)
         }
 
-        dateValue.setOnClickListener {
+        date.setOnClickListener {
             showDatePicker(cal, dateSetListener)
         }
     }

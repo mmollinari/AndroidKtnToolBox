@@ -1,4 +1,4 @@
-package fr.isen.mollinari.androidktntoolbox
+package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.Manifest
 import android.app.Activity
@@ -17,11 +17,10 @@ import android.support.v4.app.ActivityCompat
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
+import fr.isen.mollinari.androidktntoolbox.R
 import kotlinx.android.synthetic.main.activity_permission.*
 import java.io.FileNotFoundException
-import java.io.InputStream
 import java.util.ArrayList
 
 class PermissionActivity : AppCompatActivity(), LocationListener {

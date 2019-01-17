@@ -1,9 +1,11 @@
-package fr.isen.mollinari.androidktntoolbox
+package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import fr.isen.mollinari.androidktntoolbox.R
+import fr.isen.mollinari.androidktntoolbox.fragment.LifeCycleFragment
 import kotlinx.android.synthetic.main.activity_life_cycle.message
 
 class LifeCycleActivity : AppCompatActivity() {

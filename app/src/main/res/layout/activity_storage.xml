@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StorageActivity">
+    tools:context=".activity.StorageActivity">
 
 
     <TextView
@@ -62,7 +62,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/dateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -72,13 +72,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout1" />
 
     <TextView
-        android:id="@+id/dateValue"
+        android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/storage_date_value"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout1"
-        app:layout_constraintTop_toTopOf="@+id/date" />
+        app:layout_constraintTop_toTopOf="@+id/dateTitle" />
 
     <Button
         android:id="@+id/save"
@@ -91,7 +91,7 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:layout_constraintTop_toBottomOf="@+id/dateTitle" />
 
     <Button
         android:id="@+id/show"

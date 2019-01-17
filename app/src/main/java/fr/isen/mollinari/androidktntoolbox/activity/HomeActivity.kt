@@ -1,9 +1,10 @@
-package fr.isen.mollinari.androidktntoolbox
+package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import fr.isen.mollinari.androidktntoolbox.R
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -24,7 +25,11 @@ class HomeActivity : AppCompatActivity() {
             goToActivity(PermissionActivity::class.java)
         }
 
-        ibDeconnexion.setOnClickListener {
+        webservice.setOnClickListener {
+            goToActivity(WebServiceActivity::class.java)
+        }
+
+        deconnection.setOnClickListener {
             logOut()
         }
     }
