@@ -133,22 +133,8 @@ class StorageActivity : AppCompatActivity() {
 
     }
 
-    @Throws(IOException::class)
-    fun convertInputStreamToString(inputStream: InputStream): String {
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val stringBuffer = StringBuilder("")
-        var readLine: String? = bufferedReader.readLine()
-
-        while (readLine != null) {
-            stringBuffer.append(readLine)
-            stringBuffer.append("\n")
-            readLine = bufferedReader.readLine()
-        }
-
-        inputStream.close()
-        return stringBuffer.toString()
-
-    }
+    private fun convertInputStreamToString(inputStream: InputStream): String =
+        inputStream.bufferedReader().use { it.readText() }
 
     private fun getAge(day: Int, month: Int, year: Int): String {
         val dateNaissance = Calendar.getInstance()

@@ -29,9 +29,9 @@ class WebServiceActivity : AppCompatActivity() {
 
             override fun success(json: String) {
                 val userResults = parseUserResultJSON(json)
-                if (userResults?.results != null) {
+                userResults?.results?.let {
 
-                    val mAdapter = UsersAdapter(userResults.results, this@WebServiceActivity)
+                    val mAdapter = UsersAdapter(it, this@WebServiceActivity)
                     val mLayoutManager = LinearLayoutManager(applicationContext)
                     recyclerView.layoutManager = mLayoutManager
                     recyclerView.addItemDecoration(

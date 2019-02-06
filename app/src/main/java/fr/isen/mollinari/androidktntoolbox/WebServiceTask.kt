@@ -31,7 +31,7 @@ class WebServiceTask(private val callBackInterface: CallBackInterface) :
     }
 
     override fun onPostExecute(result: String?) {
-        if (result != null && !result.isEmpty()) {
+        if (!result.isNullOrEmpty()) {
             callBackInterface.success(result)
         } else {
             callBackInterface.error()

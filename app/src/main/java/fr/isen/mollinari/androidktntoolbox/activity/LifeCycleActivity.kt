@@ -48,12 +48,12 @@ class LifeCycleActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        isActivityRunning = false
         showLog("Cycle de vie Activité : onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        isActivityRunning = false
         showLog("Cycle de vie Activité : onStop")
     }
 

@@ -29,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
             goToActivity(WebServiceActivity::class.java)
         }
 
-        deconnection.setOnClickListener {
+        logout.setOnClickListener {
             logOut()
         }
     }
