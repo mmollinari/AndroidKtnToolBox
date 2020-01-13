@@ -1,21 +1,23 @@
 package fr.isen.mollinari.androidktntoolbox.activity
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.gson.GsonBuilder
-import fr.isen.mollinari.androidktntoolbox.CallBackInterface
 import fr.isen.mollinari.androidktntoolbox.R
-import fr.isen.mollinari.androidktntoolbox.WebServiceTask
 import fr.isen.mollinari.androidktntoolbox.model.UserResults
 import kotlinx.android.synthetic.main.activity_web_service.recyclerView
 
 class WebServiceActivity : AppCompatActivity() {
 
-    val url = "https://randomuser.me/api/?results=10"
+    private val url = "https://randomuser.me/api/?results=10&nat=fr"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +27,15 @@ class WebServiceActivity : AppCompatActivity() {
     }
 
     private fun getUserFromApi() {
-        WebServiceTask(object : CallBackInterface {
-
-            override fun success(json: String) {
-                val userResults = parseUserResultJSON(json)
+        val stringRequest = StringRequest(
+            Request.Method.GET, url,
+            Response.Listener<String> { response ->
+                val userResults = parseUserResultJSON(response)
                 userResults?.results?.let {
 
-                    val mAdapter = UsersAdapter(it, this@WebServiceActivity)
-                    val mLayoutManager = LinearLayoutManager(applicationContext)
+                    val mAdapter = UsersAdapter(it)
+                    val mLayoutManager =
+                        LinearLayoutManager(applicationContext)
                     recyclerView.layoutManager = mLayoutManager
                     recyclerView.addItemDecoration(
                         DividerItemDecoration(
@@ -45,12 +48,10 @@ class WebServiceActivity : AppCompatActivity() {
                     mAdapter.notifyDataSetChanged()
 
                 }
-            }
+            },
+            Response.ErrorListener { Log.e("WebServiceActivity", "Le serveur n'a pas pu récupérer les résultats") })
 
-            override fun error() {
-                Log.e("WebServiceActivity", "Le serveur n'a pas pu récupérer les résultats")
-            }
-        }).execute(url)
+        Volley.newRequestQueue(this).add(stringRequest)
     }
 
     private fun parseUserResultJSON(response: String): UserResults? {

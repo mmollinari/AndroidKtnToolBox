@@ -1,16 +1,8 @@
 package fr.isen.mollinari.androidktntoolbox.model
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-
-class Id {
-
-    @SerializedName("name")
-    @Expose
-    lateinit var name: String
-    @SerializedName("value")
-    @Expose
-    lateinit var value: Any
-
-}
+data class Id(
+    @SerializedName("name") val name: String,
+    @SerializedName("value") val value: String
+)

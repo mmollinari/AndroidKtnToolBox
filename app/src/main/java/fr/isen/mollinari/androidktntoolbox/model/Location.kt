@@ -1,18 +1,13 @@
 package fr.isen.mollinari.androidktntoolbox.model
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Location {
-
-    @SerializedName("street")
-    @Expose
-    lateinit var street: String
-    @SerializedName("city")
-    @Expose
-    lateinit var city: String
-    @SerializedName("state")
-    @Expose
-    lateinit var state: String
-
-}
+data class Location(
+	@SerializedName("street") val street : Street,
+	@SerializedName("city") val city : String,
+	@SerializedName("state") val state : String,
+	@SerializedName("country") val country : String,
+	@SerializedName("postcode") val postcode : Int,
+	@SerializedName("coordinates") val coordinates : Coordinates,
+	@SerializedName("timezone") val timezone : Timezone
+)

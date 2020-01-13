@@ -2,9 +2,9 @@ package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.widget.Toast
 import fr.isen.mollinari.androidktntoolbox.R

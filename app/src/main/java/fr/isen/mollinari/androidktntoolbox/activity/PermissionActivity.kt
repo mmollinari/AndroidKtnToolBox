@@ -9,13 +9,12 @@ import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 import android.util.Log
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import fr.isen.mollinari.androidktntoolbox.R
@@ -25,17 +24,16 @@ import java.util.ArrayList
 
 class PermissionActivity : AppCompatActivity(), LocationListener {
 
-
-    private val REQUEST_CODE = 11
-    private val PERMISSIONS_REQUEST_READ_CONTACTS = 22
-    private val PERMISSIONS_ACCESS_COARSE_LOCATION = 33
-    private val PERMISSIONS_REQUEST_READ_AND_LOCATION = 44
     private lateinit var locationManager: LocationManager
     private lateinit var permissionsNotGranted: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission)
+
+        photo.setOnClickListener {
+            getPickFromGallery()
+        }
 
         permissionsNotGranted = getAllPermissionNotGranted()
 
@@ -80,7 +78,7 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
         )
     }
 
-    fun getPickFromGallery(v: View) {
+    private fun getPickFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, REQUEST_CODE)
@@ -182,5 +180,12 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
 
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
         Log.d("PermissionActivity", "new status : $status")
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 11
+        private const val PERMISSIONS_REQUEST_READ_CONTACTS = 22
+        private const val PERMISSIONS_ACCESS_COARSE_LOCATION = 33
+        private const val PERMISSIONS_REQUEST_READ_AND_LOCATION = 44
     }
 }

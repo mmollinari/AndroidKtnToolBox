@@ -3,7 +3,6 @@ package fr.isen.mollinari.androidktntoolbox.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import fr.isen.mollinari.androidktntoolbox.activity.LifeCycleActivity
 import fr.isen.mollinari.androidktntoolbox.R
 
 
-class LifeCycleFragment : Fragment() {
+class LifeCycleFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,7 @@ class LifeCycleFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         showLogInActivity("Cycle de vie fragment : onAttach")
     }

@@ -1,14 +1,12 @@
 package fr.isen.mollinari.androidktntoolbox.model
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
- * http://www.jsonschema2pojo.org/
+ * https://www.json2kotlin.com
  */
 
-class UserResults {
-    @SerializedName("results")
-    @Expose
-    val results: List<User>? = null
-}
+class UserResults(
+    @SerializedName("results") val results: List<User>,
+    @SerializedName("info") val info: Info
+)

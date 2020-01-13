@@ -1,7 +1,6 @@
 package fr.isen.mollinari.androidktntoolbox.activity
 
-import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +10,19 @@ import com.squareup.picasso.Picasso
 import fr.isen.mollinari.androidktntoolbox.R
 import fr.isen.mollinari.androidktntoolbox.RoundedTransformation
 import fr.isen.mollinari.androidktntoolbox.model.User
+import java.util.Locale
 
-class UsersAdapter(private val usersList: List<User>, private val context: Context) :
+class UsersAdapter(private val usersList: List<User>) :
     RecyclerView.Adapter<ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val randomUser = usersList[position]
 
         val name =
-            capitalize(randomUser.name.first) + " " + randomUser.name.last.toUpperCase()
+            capitalize(randomUser.name.first) + " " + randomUser.name.last.toUpperCase(Locale.FRENCH)
         val location =
-            randomUser.location.street + " " + randomUser.location.state + " " + randomUser.location.city
-        Picasso.with(context)
+            randomUser.location.street.name + " " + randomUser.location.state + " " + randomUser.location.city
+        Picasso.get()
             .load(randomUser.picture.medium)
             .fit().centerInside()
             .transform(RoundedTransformation(400, 0))
