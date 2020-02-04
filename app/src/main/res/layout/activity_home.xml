@@ -17,18 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/isen_logo" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/home_welcome"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
-
     <ImageView
         android:id="@+id/lifeCycle"
         android:layout_width="wrap_content"
@@ -37,20 +25,10 @@
         android:background="@color/colorPrimary"
         android:padding="20dp"
         app:layout_constraintEnd_toStartOf="@+id/data"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:srcCompat="@android:drawable/stat_notify_chat" />
-
-    <TextView
-        android:id="@+id/lifeCycleTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/home_lifecycle"
-        app:layout_constraintEnd_toEndOf="@+id/lifeCycle"
-        app:layout_constraintStart_toStartOf="@+id/lifeCycle"
-        app:layout_constraintTop_toBottomOf="@+id/lifeCycle" />
 
     <ImageView
         android:id="@+id/data"
@@ -62,20 +40,11 @@
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/lifeCycle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toEndOf="@+id/lifeCycle"
         app:layout_constraintTop_toTopOf="@+id/lifeCycle"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/stat_notify_sdcard" />
-
-    <TextView
-        android:id="@+id/dataTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_save"
-        app:layout_constraintEnd_toEndOf="@+id/data"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="@+id/data"
-        app:layout_constraintTop_toTopOf="@+id/lifeCycleTitle" />
 
     <ImageView
         android:id="@+id/permission"
@@ -90,16 +59,6 @@
         app:layout_constraintTop_toBottomOf="@+id/lifeCycleTitle"
         app:srcCompat="@android:drawable/stat_sys_speakerphone" />
 
-    <TextView
-        android:id="@+id/permissionTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/home_permission"
-        app:layout_constraintEnd_toEndOf="@+id/permission"
-        app:layout_constraintStart_toStartOf="@+id/permission"
-        app:layout_constraintTop_toBottomOf="@+id/permission" />
-
     <ImageView
         android:id="@+id/webservice"
         android:layout_width="wrap_content"
@@ -112,15 +71,6 @@
         app:layout_constraintTop_toTopOf="@+id/permission"
         app:srcCompat="@android:drawable/stat_sys_download" />
 
-    <TextView
-        android:id="@+id/webserviceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_webservices"
-        app:layout_constraintEnd_toEndOf="@+id/webservice"
-        app:layout_constraintStart_toStartOf="@+id/webservice"
-        app:layout_constraintTop_toTopOf="@+id/permissionTitle" />
-
     <ImageView
         android:id="@+id/logout"
         android:layout_width="wrap_content"
@@ -129,5 +79,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_lock_power_off" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/home_welcome"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/lifeCycleTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/home_lifecycle"
+        app:layout_constraintEnd_toEndOf="@+id/lifeCycle"
+        app:layout_constraintStart_toStartOf="@+id/lifeCycle"
+        app:layout_constraintTop_toBottomOf="@+id/lifeCycle" />
+
+    <TextView
+        android:id="@+id/dataTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_save"
+        app:layout_constraintEnd_toEndOf="@+id/data"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/data"
+        app:layout_constraintTop_toTopOf="@+id/lifeCycleTitle" />
+
+    <TextView
+        android:id="@+id/permissionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/home_permission"
+        app:layout_constraintEnd_toEndOf="@+id/permission"
+        app:layout_constraintStart_toStartOf="@+id/permission"
+        app:layout_constraintTop_toBottomOf="@+id/permission" />
+
+    <TextView
+        android:id="@+id/webserviceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_webservices"
+        app:layout_constraintEnd_toEndOf="@+id/webservice"
+        app:layout_constraintStart_toStartOf="@+id/webservice"
+        app:layout_constraintTop_toTopOf="@+id/permissionTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

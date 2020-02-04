@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidKtnToolBox</string>
+    <string name="app_name">Marc Moll</string>
 
     <string name="login_connection">Connexion</string>
     <string name="login_validate">Valider</string>
@@ -16,7 +16,7 @@
     <string name="storage_name">Nom</string>
     <string name="storage_first_name">Prenom</string>
     <string name="storage_date">Date : &#160;</string>
-    <string name="storage_date_value">../../..</string>
+    <string name="storage_date_value">.. / .. / ..</string>
     <string name="storage_age">Age : &#160;</string>
     <string name="storage_show">Lecture</string>
     <string name="storage_save">Sauvegarde</string>

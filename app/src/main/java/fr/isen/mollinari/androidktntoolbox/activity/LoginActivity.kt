@@ -11,24 +11,23 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-
-    private val GOOD_IDENTIFIANT = "admin"
-    private val GOOD_MDP = "123"
-
     lateinit var sharedPreferences: SharedPreferences
 
     companion object {
-        val USER_PREFS = "user_prefs"
+        private const val GOOD_IDENTIFIANT = "admin"
+        private const val GOOD_MDP = "123"
+        private val USER_ID_KEY = "id"
+        private val USER_PASS_KEY = "mdp"
+        const val USER_PREFS = "user_prefs"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
         sharedPreferences = getSharedPreferences(USER_PREFS, Context.MODE_PRIVATE)
-        val savedIdentifiant = sharedPreferences.getString("id", "")
-        val savedMdp = sharedPreferences.getString("mdp", "")
+        val savedIdentifiant = sharedPreferences.getString(USER_ID_KEY, "")
+        val savedMdp = sharedPreferences.getString(USER_PASS_KEY, "")
 
         if (savedIdentifiant == GOOD_IDENTIFIANT && savedMdp == GOOD_MDP) {
             goToHome(savedIdentifiant, true)
@@ -45,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (GOOD_IDENTIFIANT == ident && GOOD_MDP == mdp) {
             saveUserCredential(ident, mdp)
-            goToHome(ident, false)
+            goToHome(ident, true)
         } else {
             Toast.makeText(
                 this@LoginActivity,
@@ -57,8 +56,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun saveUserCredential(identifiant: String, mdp: String) {
         val editor = sharedPreferences.edit()
-        editor.putString("id", identifiant)
-        editor.putString("mdp", mdp)
+        editor.putString(USER_ID_KEY, identifiant)
+        editor.putString(USER_PASS_KEY, mdp)
         editor.apply()
     }
 

@@ -22,7 +22,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         permission.setOnClickListener {
-            goToActivity(PermissionActivity::class.java)
+            goToActivity(RecyclerActivity::class.java)
         }
 
         webservice.setOnClickListener {
@@ -42,8 +42,7 @@ class HomeActivity : AppCompatActivity() {
     private fun logOut() {
         val sharedPreferences = getSharedPreferences(LoginActivity.USER_PREFS, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString("id", "")
-        editor.putString("mdp", "")
+        editor.clear()
         editor.apply()
 
         val intent = Intent(this@HomeActivity, LoginActivity::class.java)
