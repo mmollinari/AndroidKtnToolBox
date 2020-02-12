@@ -6,129 +6,166 @@
     android:layout_height="match_parent"
     tools:context=".activity.HomeActivity">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="fitCenter"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/isen_logo" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/lifeCycle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/data"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:background="@color/colorPrimary"
-        android:cropToPadding="false"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/lifeCycle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toEndOf="@+id/lifeCycle"
-        app:layout_constraintTop_toTopOf="@+id/lifeCycle"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@android:drawable/stat_notify_sdcard" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/isen_logo" />
 
-    <ImageView
-        android:id="@+id/permission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/webservice"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lifeCycleTitle"
-        app:srcCompat="@android:drawable/stat_sys_speakerphone" />
+            <ImageView
+                android:id="@+id/lifeCycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@color/colorPrimary"
+                android:padding="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/data"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:srcCompat="@android:drawable/stat_notify_chat" />
 
-    <ImageView
-        android:id="@+id/webservice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:padding="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/permission"
-        app:layout_constraintTop_toTopOf="@+id/permission"
-        app:srcCompat="@android:drawable/stat_sys_download" />
+            <ImageView
+                android:id="@+id/data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:background="@color/colorPrimary"
+                android:cropToPadding="false"
+                android:padding="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lifeCycle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toEndOf="@+id/lifeCycle"
+                app:layout_constraintTop_toTopOf="@+id/lifeCycle"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@android:drawable/stat_notify_sdcard" />
 
-    <ImageView
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_lock_power_off" />
+            <ImageView
+                android:id="@+id/permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@color/colorPrimary"
+                android:padding="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/webservice"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lifeCycleTitle"
+                app:srcCompat="@android:drawable/stat_sys_speakerphone" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/home_welcome"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+            <ImageView
+                android:id="@+id/webservice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/permission"
+                app:layout_constraintTop_toTopOf="@+id/permission"
+                app:srcCompat="@android:drawable/stat_sys_download" />
 
-    <TextView
-        android:id="@+id/lifeCycleTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/home_lifecycle"
-        app:layout_constraintEnd_toEndOf="@+id/lifeCycle"
-        app:layout_constraintStart_toStartOf="@+id/lifeCycle"
-        app:layout_constraintTop_toBottomOf="@+id/lifeCycle" />
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/ic_lock_power_off" />
 
-    <TextView
-        android:id="@+id/dataTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_save"
-        app:layout_constraintEnd_toEndOf="@+id/data"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="@+id/data"
-        app:layout_constraintTop_toTopOf="@+id/lifeCycleTitle" />
+            <ImageView
+                android:id="@+id/ble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@color/colorPrimary"
+                android:padding="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/data"
+                app:layout_constraintHorizontal_bias="0.518"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/permissionTitle"
+                app:srcCompat="@android:drawable/stat_sys_data_bluetooth" />
 
-    <TextView
-        android:id="@+id/permissionTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/home_permission"
-        app:layout_constraintEnd_toEndOf="@+id/permission"
-        app:layout_constraintStart_toStartOf="@+id/permission"
-        app:layout_constraintTop_toBottomOf="@+id/permission" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/home_welcome"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
 
-    <TextView
-        android:id="@+id/webserviceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_webservices"
-        app:layout_constraintEnd_toEndOf="@+id/webservice"
-        app:layout_constraintStart_toStartOf="@+id/webservice"
-        app:layout_constraintTop_toTopOf="@+id/permissionTitle" />
+            <TextView
+                android:id="@+id/lifeCycleTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/home_lifecycle"
+                app:layout_constraintEnd_toEndOf="@+id/lifeCycle"
+                app:layout_constraintStart_toStartOf="@+id/lifeCycle"
+                app:layout_constraintTop_toBottomOf="@+id/lifeCycle" />
 
+            <TextView
+                android:id="@+id/dataTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_save"
+                app:layout_constraintEnd_toEndOf="@+id/data"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="@+id/data"
+                app:layout_constraintTop_toTopOf="@+id/lifeCycleTitle" />
+
+            <TextView
+                android:id="@+id/permissionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/home_permission"
+                app:layout_constraintEnd_toEndOf="@+id/permission"
+                app:layout_constraintStart_toStartOf="@+id/permission"
+                app:layout_constraintTop_toBottomOf="@+id/permission" />
+
+            <TextView
+                android:id="@+id/webserviceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_webservices"
+                app:layout_constraintEnd_toEndOf="@+id/webservice"
+                app:layout_constraintStart_toStartOf="@+id/webservice"
+                app:layout_constraintTop_toTopOf="@+id/permissionTitle" />
+
+            <TextView
+                android:id="@+id/bleTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/home_ble"
+                app:layout_constraintEnd_toEndOf="@+id/ble"
+                app:layout_constraintStart_toStartOf="@+id/ble"
+                app:layout_constraintTop_toBottomOf="@+id/ble" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

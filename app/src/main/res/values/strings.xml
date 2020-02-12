@@ -11,6 +11,7 @@
     <string name="home_save">Sauvegarde</string>
     <string name="home_permission">Permissions</string>
     <string name="home_webservices">Webservices</string>
+    <string name="home_ble">BLE</string>
 
     <string name="storage_title">Accès au fichier</string>
     <string name="storage_name">Nom</string>
@@ -24,4 +25,9 @@
     <string name="permission_title">Accès aux informations Android</string>
     <string name="permission_loading">Chargement de la position …</string>
     <string name="permission_location">Latitude : %1$f \nLongitude : %2$f</string>
+
+    <string name="ble_scan_title_play">Lancer le Scan BLE</string>
+    <string name="ble_scan_title_pause">Scan BLE en cours …</string>
+    <string name="ble_scan_error">Erreur lors du scan BLE</string>
+    <string name="ble_scan_missing">Votre téléphone n\'est pas compatible avec le BLE</string>
 </resources>

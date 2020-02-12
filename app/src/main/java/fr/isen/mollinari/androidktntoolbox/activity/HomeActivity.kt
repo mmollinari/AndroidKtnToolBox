@@ -29,6 +29,10 @@ class HomeActivity : AppCompatActivity() {
             goToActivity(WebServiceActivity::class.java)
         }
 
+        ble.setOnClickListener {
+            goToActivity(BLEScanActivity::class.java)
+        }
+
         logout.setOnClickListener {
             logOut()
         }

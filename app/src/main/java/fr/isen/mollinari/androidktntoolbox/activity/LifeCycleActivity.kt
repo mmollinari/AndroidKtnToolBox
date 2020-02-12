@@ -2,6 +2,7 @@ package fr.isen.mollinari.androidktntoolbox.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import fr.isen.mollinari.androidktntoolbox.R
