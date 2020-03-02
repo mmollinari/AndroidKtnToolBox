@@ -1,12 +1,12 @@
-package fr.isen.mollinari.androidktntoolbox.activity
+package fr.isen.mollinari.androidktntoolbox.ble
 
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -17,12 +17,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.isen.mollinari.androidktntoolbox.R
-import kotlinx.android.synthetic.main.activity_blescan.bleDevicesList
-import kotlinx.android.synthetic.main.activity_blescan.bleMissing
-import kotlinx.android.synthetic.main.activity_blescan.itemsswipetorefresh
-import kotlinx.android.synthetic.main.activity_blescan.playPauseAction
-import kotlinx.android.synthetic.main.activity_blescan.progressBar
-import kotlinx.android.synthetic.main.activity_blescan.scanTitle
+import kotlinx.android.synthetic.main.activity_ble_scan.bleDevicesList
+import kotlinx.android.synthetic.main.activity_ble_scan.bleMissing
+import kotlinx.android.synthetic.main.activity_ble_scan.divider
+import kotlinx.android.synthetic.main.activity_ble_scan.itemsswipetorefresh
+import kotlinx.android.synthetic.main.activity_ble_scan.playPauseAction
+import kotlinx.android.synthetic.main.activity_ble_scan.progressBar
+import kotlinx.android.synthetic.main.activity_ble_scan.scanTitle
 
 
 class BLEScanActivity : AppCompatActivity() {
@@ -40,17 +41,23 @@ class BLEScanActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_blescan)
+        setContentView(R.layout.activity_ble_scan)
 
-        if (isBLEEnabled) {
-            initBLEScan()
-        } else if (bluetoothAdapter != null) {
-            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-        } else {
-            bleMissing.visibility = View.VISIBLE
-            scanTitle.visibility = View.GONE
-            playPauseAction.visibility = View.GONE
+        when {
+            isBLEEnabled -> {
+                initBLEScan()
+            }
+            bluetoothAdapter != null -> {
+                val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBtIntent,
+                    REQUEST_ENABLE_BT
+                )
+            }
+            else -> {
+                bleMissing.visibility = View.VISIBLE
+                scanTitle.visibility = View.GONE
+                playPauseAction.visibility = View.GONE
+            }
         }
     }
 
@@ -62,7 +69,10 @@ class BLEScanActivity : AppCompatActivity() {
     }
 
     private fun initBLEScan() {
-        adapter = BLEScanAdapter(arrayListOf())
+        adapter = BLEScanAdapter(
+            arrayListOf(),
+            ::onDeviceClicked
+        )
         bleDevicesList.adapter = adapter
         bleDevicesList.addItemDecoration(
             DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
@@ -86,15 +96,23 @@ class BLEScanActivity : AppCompatActivity() {
         }
     }
 
+    private fun onDeviceClicked(device: BluetoothDevice) {
+        val intent = Intent(this@BLEScanActivity, BLEDeviceActivity::class.java)
+        intent.putExtra("ble_device", device)
+        startActivity(intent)
+    }
+
     private fun togglePlayPauseAction() {
         if (mScanning) {
             progressBar.visibility = View.VISIBLE
+            divider.visibility = View.INVISIBLE
             scanTitle.text = getString(R.string.ble_scan_title_pause)
             playPauseAction.setImageDrawable(
                 ContextCompat.getDrawable(this, android.R.drawable.ic_media_pause)
             )
         } else {
-            progressBar.visibility = View.GONE
+            progressBar.visibility = View.INVISIBLE
+            divider.visibility = View.VISIBLE
             scanTitle.text = getString(R.string.ble_scan_title_play)
             playPauseAction.setImageDrawable(
                 ContextCompat.getDrawable(this, android.R.drawable.ic_media_play)
@@ -108,7 +126,9 @@ class BLEScanActivity : AppCompatActivity() {
                 handler.postDelayed({
                     mScanning = false
                     stopScan(leScanCallback)
-                }, SCAN_PERIOD)
+                },
+                    SCAN_PERIOD
+                )
                 mScanning = true
                 startScan(leScanCallback)
                 adapter.clearResults()
@@ -120,7 +140,6 @@ class BLEScanActivity : AppCompatActivity() {
             togglePlayPauseAction()
         }
     }
-
 
     private val leScanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult) {

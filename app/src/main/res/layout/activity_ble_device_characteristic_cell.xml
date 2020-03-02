@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/characteristicLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackgroundGrey">
+
+    <TextView
+        android:id="@+id/characteristicName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Marc" />
+
+    <TextView
+        android:id="@+id/characteristicUuid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/characteristicName"
+        app:layout_constraintTop_toBottomOf="@+id/characteristicName"
+        tools:text="00:11:22:33:44" />
+
+    <TextView
+        android:id="@+id/characteristicProperties"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/characteristicUuid"
+        app:layout_constraintTop_toBottomOf="@+id/characteristicUuid"
+        tools:text="00:11:22:33:44" />
+
+    <Button
+        android:id="@+id/readAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:enabled="false"
+        android:text="@string/ble_device_characteristic_read"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/writeAction"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/characteristicProperties" />
+
+    <Button
+        android:id="@+id/writeAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:background="?android:attr/selectableItemBackground"
+        android:enabled="false"
+        android:text="@string/ble_device_characteristic_write"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/notifyAction"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/readAction" />
+
+    <Button
+        android:id="@+id/notifyAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:enabled="false"
+        android:text="@string/ble_device_characteristic_notify"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/writeAction" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

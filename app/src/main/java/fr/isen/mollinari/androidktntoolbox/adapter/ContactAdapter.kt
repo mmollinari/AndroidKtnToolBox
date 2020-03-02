@@ -1,20 +1,18 @@
-package fr.isen.mollinari.androidktntoolbox.activity
+package fr.isen.mollinari.androidktntoolbox.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fr.isen.mollinari.androidktntoolbox.R
 import kotlinx.android.synthetic.main.activity_recycler_cell.view.contactName
 
 class ContactAdapter(private val contacts: List<String>) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_recycler_cell, parent, false)
-
-        return ContactViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder =
+        ContactViewHolder(LayoutInflater.from(parent.context)
+            .inflate(R.layout.activity_recycler_cell, parent, false))
 
     override fun getItemCount(): Int = contacts.size
 
@@ -22,8 +20,7 @@ class ContactAdapter(private val contacts: List<String>) : RecyclerView.Adapter<
         holder.contactName.text = contacts[position]
     }
 
-    class ContactViewHolder(val contactView: View) : RecyclerView.ViewHolder(contactView) {
-        val contactName = contactView.contactName
+    class ContactViewHolder(contactView: View) : RecyclerView.ViewHolder(contactView) {
+        val contactName: TextView = contactView.contactName
     }
-
 }

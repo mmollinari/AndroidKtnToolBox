@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Marc Moll</string>
+    <string name="app_name">AndroidToolBox</string>
 
     <string name="login_connection">Connexion</string>
     <string name="login_validate">Valider</string>
@@ -30,4 +30,14 @@
     <string name="ble_scan_title_pause">Scan BLE en cours …</string>
     <string name="ble_scan_error">Erreur lors du scan BLE</string>
     <string name="ble_scan_missing">Votre téléphone n\'est pas compatible avec le BLE</string>
+
+    <string name="ble_device_status">Status : %1$s</string>
+    <string name="ble_device_status_connecting">Connexion en cours</string>
+    <string name="ble_device_status_connected">Connecté</string>
+    <string name="ble_device_status_disconnected">Déconnecté</string>
+    <string name="ble_device_status_disconnecting">Déconnexion en cours</string>
+
+    <string name="ble_device_characteristic_read">Lecture</string>
+    <string name="ble_device_characteristic_write">Ecrire</string>
+    <string name="ble_device_characteristic_notify">Notifier</string>
 </resources>

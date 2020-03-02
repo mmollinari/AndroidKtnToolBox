@@ -1,6 +1,7 @@
 package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -15,12 +16,13 @@ import android.provider.ContactsContract
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import fr.isen.mollinari.androidktntoolbox.R
+import fr.isen.mollinari.androidktntoolbox.adapter.ContactAdapter
 import kotlinx.android.synthetic.main.activity_permission.*
 import java.io.FileNotFoundException
-import java.util.ArrayList
 
 class PermissionActivity : AppCompatActivity(), LocationListener {
 
@@ -84,26 +86,36 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
         startActivityForResult(intent, REQUEST_CODE)
     }
 
-    private fun showContacts() {
-        val contacts = getContactNames()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, contacts)
-        listContact.adapter = adapter
+    @SuppressLint("Recycle")
+    private fun loadContacts(): List<String> {
+        val contactNameList = arrayListOf<String>()
+        val phoneCursor =
+            contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
+        phoneCursor?.let { cursor ->
+            while (cursor.moveToNext()) {
+                val name =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                contactNameList.add(name)
+            }
+            cursor.close()
+        }
+        return contactNameList
     }
 
-    private fun getContactNames(): List<String> {
-        val list = ArrayList<String>()
-        val phones =
-            contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
-        if (phones != null && phones.count > 0) {
-            while (phones.moveToNext()) {
-                val name =
-                    phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                list.add("Nom : $name")
-
-            }
-            phones.close()
+    private fun showContacts() {
+        val contacts = loadContacts()
+        permissionRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@PermissionActivity)
+            adapter = ContactAdapter(
+                contacts
+            )
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@PermissionActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
         }
-        return list
     }
 
     private fun showCurrentPosition() {

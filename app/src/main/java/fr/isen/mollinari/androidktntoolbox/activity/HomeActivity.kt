@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import fr.isen.mollinari.androidktntoolbox.R
+import fr.isen.mollinari.androidktntoolbox.ble.BLEScanActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         permission.setOnClickListener {
-            goToActivity(RecyclerActivity::class.java)
+            goToActivity(PermissionActivity::class.java)
         }
 
         webservice.setOnClickListener {
