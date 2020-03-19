@@ -61,8 +61,8 @@ class BLEScanActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         if (isBLEEnabled) {
             scanLeDevice(false)
         }

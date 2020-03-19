@@ -26,7 +26,7 @@ import java.io.FileNotFoundException
 
 class PermissionActivity : AppCompatActivity(), LocationListener {
 
-    private lateinit var locationManager: LocationManager
+    private var locationManager: LocationManager? = null
     private lateinit var permissionsNotGranted: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
 
     public override fun onStop() {
         super.onStop()
-        locationManager.removeUpdates(this)
+        locationManager?.removeUpdates(this)
     }
 
     private fun getAllPermissionNotGranted(): Array<String> {
@@ -125,8 +125,8 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 1f, this)
-            val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 1f, this)
+            val location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             if (location != null) {
                 display.text = getString(
                     R.string.permission_location,
@@ -159,19 +159,9 @@ class PermissionActivity : AppCompatActivity(), LocationListener {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            try {
-                data?.let {
-                    val imageUri = it.data
-                    if (imageUri != null) {
-                        val imageStream = contentResolver.openInputStream(imageUri)
-                        val selectedImage = BitmapFactory.decodeStream(imageStream)
-                        photo.setImageBitmap(selectedImage)
-                    }
-                }
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
+            data?.data?.let {
+                photo.setImageURI(it)
             }
-
         }
     }
 

@@ -3,11 +3,11 @@ package fr.isen.mollinari.androidktntoolbox.ble
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
-import android.bluetooth.BluetoothGattService
-import androidx.appcompat.app.AppCompatActivity
+import android.bluetooth.BluetoothGattCharacteristic
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.isen.mollinari.androidktntoolbox.R
@@ -29,48 +29,96 @@ class BLEDeviceActivity : AppCompatActivity() {
         val device = intent.getParcelableExtra<BluetoothDevice>("ble_device")
         deviceName.text = device?.name ?: "Device Unknown"
         deviceStatus.text =
-            getString(R.string.ble_device_status, getString(BLEConnexionState.STATE_CONNECTING.text))
+            getString(
+                R.string.ble_device_status,
+                getString(BLEConnexionState.STATE_CONNECTING.text)
+            )
         progressBarService.visibility = View.VISIBLE
         divider.visibility = View.INVISIBLE
 
+        connectToDevice(device)
+    }
+
+    private fun connectToDevice(device: BluetoothDevice?) {
         bluetoothGatt = device?.connectGatt(this, true, object : BluetoothGattCallback() {
             override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
                 super.onConnectionStateChange(gatt, status, newState)
-                progressBarService.visibility = View.INVISIBLE
-                divider.visibility = View.VISIBLE
-                BLEConnexionState.getBLEConnexionStateFromState(newState)?.let {
-                    runOnUiThread {
-                        deviceStatus.text =
-                            getString(R.string.ble_device_status, getString(it.text))
-                    }
-
-                    if (it.state == BLEConnexionState.STATE_CONNECTED.state) {
-                        gatt?.discoverServices()
-                    }
-                }
+                onConnectionStateChange(newState, gatt)
             }
 
             override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
                 super.onServicesDiscovered(gatt, status)
-                gatt?.services?.let {
-                    it.forEach { service ->
-                        Log.w("ServiceActivity", "uuid:${service.uuid}, t:${service.type}, iid:${service.instanceId}")
-                    }
-                    runOnUiThread {
-                        adapter = BLEServiceAdapter(
-                            it.map { service ->
-                                BLEService(service.uuid.toString(), service.characteristics)
-                            }.toMutableList()
-                        )
-                        bleServicesList.adapter = adapter
-                        bleServicesList.addItemDecoration(
-                            DividerItemDecoration(this@BLEDeviceActivity, LinearLayoutManager.VERTICAL)
-                        )
-                    }
+                onServicesDiscovered(gatt)
+            }
+
+            override fun onCharacteristicRead(
+                gatt: BluetoothGatt?,
+                characteristic: BluetoothGattCharacteristic?,
+                status: Int
+            ) {
+                super.onCharacteristicRead(gatt, characteristic, status)
+                Log.w(
+                    "ServiceActivity",
+                    "char read uuid:${characteristic?.uuid}, perm:${characteristic?.permissions}, proper:${characteristic?.properties}"
+                )
+                runOnUiThread {
+                    adapter.updateFromChangedCharacteristic(characteristic)
+                    adapter.notifyDataSetChanged()
                 }
             }
         })
         bluetoothGatt?.connect()
+    }
+
+    private fun onConnectionStateChange(newState: Int, gatt: BluetoothGatt?) {
+        BLEConnexionState.getBLEConnexionStateFromState(newState)?.let {
+            runOnUiThread {
+                progressBarService.visibility = View.INVISIBLE
+                divider.visibility = View.VISIBLE
+                deviceStatus.text =
+                    getString(R.string.ble_device_status, getString(it.text))
+            }
+
+            if (it.state == BLEConnexionState.STATE_CONNECTED.state) {
+                gatt?.discoverServices()
+            }
+        }
+    }
+
+    private fun onServicesDiscovered(gatt: BluetoothGatt?) {
+        gatt?.services?.let {
+            it.forEach { service ->
+                Log.w(
+                    "ServiceActivity",
+                    "uuid:${service.uuid}, t:${service.type}, iid:${service.instanceId}"
+                )
+            }
+            runOnUiThread {
+                adapter = BLEServiceAdapter(
+                    it.map { service ->
+                        BLEService(service.uuid.toString(), service.characteristics)
+                    }.toMutableList(),
+                    { characteristic -> gatt.readCharacteristic(characteristic) },
+                    { characteristic -> writeIntoCharacteristic(gatt, characteristic) },
+                    { characteristic -> gatt.setCharacteristicNotification(characteristic, true) }
+                )
+                bleServicesList.adapter = adapter
+                bleServicesList.addItemDecoration(
+                    DividerItemDecoration(
+                        this@BLEDeviceActivity,
+                        LinearLayoutManager.VERTICAL
+                    )
+                )
+            }
+        }
+    }
+
+    private fun writeIntoCharacteristic(
+        gatt: BluetoothGatt,
+        characteristic: BluetoothGattCharacteristic
+    ) {
+        characteristic.value = "Hello".toByteArray()
+        gatt.writeCharacteristic(characteristic)
     }
 
     override fun onStop() {
@@ -79,6 +127,8 @@ class BLEDeviceActivity : AppCompatActivity() {
     }
 
     private fun closeBluetoothGatt() {
+        deviceStatus.text =
+            getString(R.string.ble_device_status, getString(BLEConnexionState.STATE_DISCONNECTED.text))
         bluetoothGatt?.close()
         bluetoothGatt = null
     }

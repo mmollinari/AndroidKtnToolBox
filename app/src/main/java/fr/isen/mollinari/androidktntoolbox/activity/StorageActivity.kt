@@ -1,27 +1,22 @@
 package fr.isen.mollinari.androidktntoolbox.activity
 
 import android.app.DatePickerDialog
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import androidx.appcompat.app.AlertDialog
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import fr.isen.mollinari.androidktntoolbox.R
-import kotlinx.android.synthetic.main.activity_storage.*
-import org.json.JSONException
+import kotlinx.android.synthetic.main.activity_storage.date
+import kotlinx.android.synthetic.main.activity_storage.dateTitle
+import kotlinx.android.synthetic.main.activity_storage.firstName
+import kotlinx.android.synthetic.main.activity_storage.lastName
+import kotlinx.android.synthetic.main.activity_storage.save
+import kotlinx.android.synthetic.main.activity_storage.show
 import org.json.JSONObject
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class StorageActivity : AppCompatActivity() {
 

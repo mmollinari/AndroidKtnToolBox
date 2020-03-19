@@ -34,7 +34,17 @@
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="@+id/characteristicUuid"
         app:layout_constraintTop_toBottomOf="@+id/characteristicUuid"
-        tools:text="00:11:22:33:44" />
+        tools:text="Propriété : Lire" />
+
+    <TextView
+        android:id="@+id/characteristicValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/characteristicProperties"
+        app:layout_constraintTop_toBottomOf="@+id/characteristicProperties"
+        tools:text="Valeur :4" />
 
     <Button
         android:id="@+id/readAction"
@@ -51,7 +61,7 @@
         app:layout_constraintEnd_toStartOf="@+id/writeAction"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/characteristicProperties" />
+        app:layout_constraintTop_toBottomOf="@+id/characteristicValue" />
 
     <Button
         android:id="@+id/writeAction"

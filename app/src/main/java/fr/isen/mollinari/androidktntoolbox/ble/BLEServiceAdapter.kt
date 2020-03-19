@@ -1,7 +1,6 @@
 package fr.isen.mollinari.androidktntoolbox.ble
 
 import android.bluetooth.BluetoothGattCharacteristic
-import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +15,7 @@ import fr.isen.mollinari.androidktntoolbox.R
 import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.characteristicName
 import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.characteristicProperties
 import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.characteristicUuid
+import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.characteristicValue
 import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.notifyAction
 import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.readAction
 import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.view.writeAction
@@ -23,8 +23,12 @@ import kotlinx.android.synthetic.main.activity_ble_device_service_cell.view.serv
 import kotlinx.android.synthetic.main.activity_ble_device_service_cell.view.serviceName
 import kotlinx.android.synthetic.main.activity_ble_device_service_cell.view.serviceUuid
 
-
-class BLEServiceAdapter(serviceList: MutableList<BLEService>) :
+class BLEServiceAdapter(
+    private val serviceList: MutableList<BLEService>,
+    private val readCharacteristicCallback: (BluetoothGattCharacteristic) -> Unit,
+    private val writeCharacteristicCallback: (BluetoothGattCharacteristic) -> Unit,
+    private val notifyCharacteristicCallback: (BluetoothGattCharacteristic) -> Unit
+) :
     ExpandableRecyclerViewAdapter<BLEServiceAdapter.ServiceViewHolder, BLEServiceAdapter.CharacteristicViewHolder>(
         serviceList
     ) {
@@ -46,6 +50,7 @@ class BLEServiceAdapter(serviceList: MutableList<BLEService>) :
         val characteristicName: TextView = itemView.characteristicName
         val characteristicUuid: TextView = itemView.characteristicUuid
         val characteristicProperties: TextView = itemView.characteristicProperties
+        val characteristicValue: TextView = itemView.characteristicValue
 
         val characteristicReadAction: Button = itemView.readAction
         val characteristicWriteAction: Button = itemView.writeAction
@@ -88,30 +93,82 @@ class BLEServiceAdapter(serviceList: MutableList<BLEService>) :
         val title =
             BLEUUIDAttributes.getBLEAttributeFromUUID(characteristic.uuid.toString()).title
 
-        val uuidMessage =  "UUID : ${characteristic.uuid}"
+        val uuidMessage = "UUID : ${characteristic.uuid}"
         holder.characteristicUuid.text = uuidMessage
 
         holder.characteristicName.text = title
         val properties = arrayListOf<String>()
-        if((characteristic.properties and BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
-            properties.add("Lecture")
-            holder.characteristicReadAction.isEnabled = true
-            holder.characteristicReadAction.alpha = 1f
-        }
-        if((characteristic.properties and (BluetoothGattCharacteristic.PROPERTY_WRITE or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) != 0) {
-            properties.add("Ecrire")
-            holder.characteristicWriteAction.isEnabled = true
-            holder.characteristicWriteAction.alpha = 1f
-        }
-        if((characteristic.properties and BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0) {
-            properties.add("Notifier")
-            holder.characteristicNotifyAction.isEnabled = true
-            holder.characteristicNotifyAction.alpha = 1f
-        }
 
-        val proprietiesMessage =  "Proprietés : ${properties.joinToString()}"
+        addPropertyFromCharacteristic(
+            characteristic,
+            properties,
+            "Lecture",
+            BluetoothGattCharacteristic.PROPERTY_READ,
+            holder.characteristicReadAction,
+            holder.characteristicValue,
+            readCharacteristicCallback
+        )
+
+        addPropertyFromCharacteristic(
+            characteristic,
+            properties,
+            "Ecrire",
+            (BluetoothGattCharacteristic.PROPERTY_WRITE or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE),
+            holder.characteristicWriteAction,
+            holder.characteristicValue,
+            writeCharacteristicCallback
+        )
+
+        addPropertyFromCharacteristic(
+            characteristic,
+            properties,
+            "Notifier",
+            BluetoothGattCharacteristic.PROPERTY_NOTIFY,
+            holder.characteristicNotifyAction,
+            holder.characteristicValue,
+            notifyCharacteristicCallback
+        )
+
+        val proprietiesMessage = "Proprietés : ${properties.joinToString()}"
         holder.characteristicProperties.text = proprietiesMessage
-        Log.w("ServiceActivity", "char uuid:${characteristic.uuid}, perm:${characteristic.permissions}, proper:${characteristic.properties}")
+        Log.w(
+            "ServiceActivity",
+            "char uuid:${characteristic.uuid}, perm:${characteristic.permissions}, proper:${characteristic.properties}"
+        )
+    }
+
+    private fun addPropertyFromCharacteristic(
+        characteristic: BluetoothGattCharacteristic,
+        properties: ArrayList<String>,
+        propertyName: String,
+        propertyType: Int,
+        propertyAction: Button,
+        propertyValue: TextView,
+        propertyCallBack: (BluetoothGattCharacteristic) -> Unit
+    ) {
+        if ((characteristic.properties and propertyType) != 0) {
+            properties.add(propertyName)
+            propertyAction.isEnabled = true
+            propertyAction.alpha = 1f
+            characteristic.value?.let {
+                val value = "Valeur : ${String(it)}"
+                propertyValue.visibility = View.VISIBLE
+                propertyValue.text = value
+            }
+            propertyAction.setOnClickListener {
+                propertyCallBack.invoke(characteristic)
+            }
+        }
+    }
+
+    fun updateFromChangedCharacteristic(characteristic: BluetoothGattCharacteristic?) {
+        serviceList.forEach {
+            val index = it.items.indexOf(characteristic)
+            if(index != -1) {
+                it.items.removeAt(index)
+                it.items.add(index, characteristic)
+            }
+        }
     }
 }
 
