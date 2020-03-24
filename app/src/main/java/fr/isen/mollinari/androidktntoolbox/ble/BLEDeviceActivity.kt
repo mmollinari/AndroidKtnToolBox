@@ -1,33 +1,33 @@
 package fr.isen.mollinari.androidktntoolbox.ble
 
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothGatt
-import android.bluetooth.BluetoothGattCallback
-import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.*
 import android.os.Bundle
-import android.util.Log
+import android.text.InputType
 import android.view.View
+import android.widget.EditText
+import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.isen.mollinari.androidktntoolbox.R
-import kotlinx.android.synthetic.main.activity_ble_device.bleServicesList
-import kotlinx.android.synthetic.main.activity_ble_device.deviceName
-import kotlinx.android.synthetic.main.activity_ble_device.deviceStatus
-import kotlinx.android.synthetic.main.activity_ble_device.divider
-import kotlinx.android.synthetic.main.activity_ble_device.progressBarService
+import kotlinx.android.synthetic.main.activity_ble_device.*
+import java.util.Timer
+import java.util.TimerTask
+
 
 class BLEDeviceActivity : AppCompatActivity() {
 
     private var bluetoothGatt: BluetoothGatt? = null
     private lateinit var adapter: BLEServiceAdapter
+    private var timer: Timer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ble_device)
 
         val device = intent.getParcelableExtra<BluetoothDevice>("ble_device")
-        deviceName.text = device?.name ?: "Device Unknown"
+        deviceName.text = device?.name ?: getString(R.string.ble_scan_default_name)
         deviceStatus.text =
             getString(
                 R.string.ble_device_status,
@@ -57,10 +57,6 @@ class BLEDeviceActivity : AppCompatActivity() {
                 status: Int
             ) {
                 super.onCharacteristicRead(gatt, characteristic, status)
-                Log.w(
-                    "ServiceActivity",
-                    "char read uuid:${characteristic?.uuid}, perm:${characteristic?.permissions}, proper:${characteristic?.properties}"
-                )
                 runOnUiThread {
                     adapter.updateFromChangedCharacteristic(characteristic)
                     adapter.notifyDataSetChanged()
@@ -87,20 +83,21 @@ class BLEDeviceActivity : AppCompatActivity() {
 
     private fun onServicesDiscovered(gatt: BluetoothGatt?) {
         gatt?.services?.let {
-            it.forEach { service ->
-                Log.w(
-                    "ServiceActivity",
-                    "uuid:${service.uuid}, t:${service.type}, iid:${service.instanceId}"
-                )
-            }
             runOnUiThread {
                 adapter = BLEServiceAdapter(
+                    this,
                     it.map { service ->
                         BLEService(service.uuid.toString(), service.characteristics)
                     }.toMutableList(),
                     { characteristic -> gatt.readCharacteristic(characteristic) },
                     { characteristic -> writeIntoCharacteristic(gatt, characteristic) },
-                    { characteristic -> gatt.setCharacteristicNotification(characteristic, true) }
+                    { characteristic, enable ->
+                        toggleNotificationOnCharacteristic(
+                            gatt,
+                            characteristic,
+                            enable
+                        )
+                    }
                 )
                 bleServicesList.adapter = adapter
                 bleServicesList.addItemDecoration(
@@ -113,12 +110,51 @@ class BLEDeviceActivity : AppCompatActivity() {
         }
     }
 
+    private fun toggleNotificationOnCharacteristic(
+        gatt: BluetoothGatt,
+        characteristic: BluetoothGattCharacteristic,
+        enable: Boolean
+    ) {
+        characteristic.descriptors.forEach {
+            it.value =
+                if (enable) BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE else BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE
+            gatt.writeDescriptor(it)
+        }
+        gatt.setCharacteristicNotification(characteristic, enable)
+        timer = Timer()
+        timer?.schedule(object : TimerTask() {
+            override fun run() {
+                gatt.readCharacteristic(characteristic)
+            }
+        }, 0, 1000)
+    }
+
     private fun writeIntoCharacteristic(
         gatt: BluetoothGatt,
         characteristic: BluetoothGattCharacteristic
     ) {
-        characteristic.value = "Hello".toByteArray()
-        gatt.writeCharacteristic(characteristic)
+        runOnUiThread {
+            val input = EditText(this)
+            input.inputType = InputType.TYPE_CLASS_TEXT
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(16, 0, 16, 0)
+            input.layoutParams = params
+
+            AlertDialog.Builder(this@BLEDeviceActivity)
+                .setTitle(R.string.ble_device_write_characteristic_title)
+                .setView(input)
+                .setPositiveButton(R.string.ble_device_write_characteristic_confirm) { _, _ ->
+                    characteristic.value = input.text.toString().toByteArray()
+                    gatt.writeCharacteristic(characteristic)
+                    gatt.readCharacteristic(characteristic)
+                }
+                .setNegativeButton(R.string.ble_device_write_characteristic_cancel) { dialog, _ -> dialog.cancel() }
+                .create()
+                .show()
+        }
     }
 
     override fun onStop() {
@@ -127,8 +163,13 @@ class BLEDeviceActivity : AppCompatActivity() {
     }
 
     private fun closeBluetoothGatt() {
+        timer?.cancel()
+        timer = null
         deviceStatus.text =
-            getString(R.string.ble_device_status, getString(BLEConnexionState.STATE_DISCONNECTED.text))
+            getString(
+                R.string.ble_device_status,
+                getString(BLEConnexionState.STATE_DISCONNECTED.text)
+            )
         bluetoothGatt?.close()
         bluetoothGatt = null
     }

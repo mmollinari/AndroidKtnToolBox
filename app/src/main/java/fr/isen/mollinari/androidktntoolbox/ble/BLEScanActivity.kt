@@ -126,9 +126,7 @@ class BLEScanActivity : AppCompatActivity() {
                 handler.postDelayed({
                     mScanning = false
                     stopScan(leScanCallback)
-                },
-                    SCAN_PERIOD
-                )
+                }, SCAN_PERIOD)
                 mScanning = true
                 startScan(leScanCallback)
                 adapter.clearResults()

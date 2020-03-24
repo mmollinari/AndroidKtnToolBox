@@ -5,6 +5,7 @@
     android:id="@+id/characteristicLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="4dp"
     android:background="@color/colorBackgroundGrey">
 
     <TextView
@@ -44,7 +45,7 @@
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/characteristicProperties"
         app:layout_constraintTop_toBottomOf="@+id/characteristicProperties"
-        tools:text="Valeur :4" />
+        tools:text="Valeur : 4" />
 
     <Button
         android:id="@+id/readAction"

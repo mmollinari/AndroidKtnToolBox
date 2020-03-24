@@ -1,12 +1,15 @@
 package fr.isen.mollinari.androidktntoolbox.ble
 
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattDescriptor
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
@@ -22,12 +25,16 @@ import kotlinx.android.synthetic.main.activity_ble_device_characteristic_cell.vi
 import kotlinx.android.synthetic.main.activity_ble_device_service_cell.view.serviceArrow
 import kotlinx.android.synthetic.main.activity_ble_device_service_cell.view.serviceName
 import kotlinx.android.synthetic.main.activity_ble_device_service_cell.view.serviceUuid
+import java.nio.charset.StandardCharsets
+import java.util.*
+import kotlin.collections.ArrayList
 
 class BLEServiceAdapter(
+    private val context: Context,
     private val serviceList: MutableList<BLEService>,
     private val readCharacteristicCallback: (BluetoothGattCharacteristic) -> Unit,
     private val writeCharacteristicCallback: (BluetoothGattCharacteristic) -> Unit,
-    private val notifyCharacteristicCallback: (BluetoothGattCharacteristic) -> Unit
+    private val notifyCharacteristicCallback: (BluetoothGattCharacteristic, Boolean) -> Unit
 ) :
     ExpandableRecyclerViewAdapter<BLEServiceAdapter.ServiceViewHolder, BLEServiceAdapter.CharacteristicViewHolder>(
         serviceList
@@ -105,7 +112,6 @@ class BLEServiceAdapter(
             "Lecture",
             BluetoothGattCharacteristic.PROPERTY_READ,
             holder.characteristicReadAction,
-            holder.characteristicValue,
             readCharacteristicCallback
         )
 
@@ -115,26 +121,24 @@ class BLEServiceAdapter(
             "Ecrire",
             (BluetoothGattCharacteristic.PROPERTY_WRITE or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE),
             holder.characteristicWriteAction,
-            holder.characteristicValue,
             writeCharacteristicCallback
         )
 
-        addPropertyFromCharacteristic(
+        addPropertyNotificationFromCharacteristic(
             characteristic,
             properties,
-            "Notifier",
-            BluetoothGattCharacteristic.PROPERTY_NOTIFY,
             holder.characteristicNotifyAction,
-            holder.characteristicValue,
             notifyCharacteristicCallback
         )
 
         val proprietiesMessage = "Proprietés : ${properties.joinToString()}"
         holder.characteristicProperties.text = proprietiesMessage
-        Log.w(
-            "ServiceActivity",
-            "char uuid:${characteristic.uuid}, perm:${characteristic.permissions}, proper:${characteristic.properties}"
-        )
+        characteristic.value?.let {
+            val hex = it.joinToString("") { byte -> "%02x".format(byte)}.toUpperCase(Locale.FRANCE)
+            val value = "Valeur : ${String(it)} Hex : 0x$hex"
+            holder.characteristicValue.visibility = View.VISIBLE
+            holder.characteristicValue.text = value
+        }
     }
 
     private fun addPropertyFromCharacteristic(
@@ -143,20 +147,40 @@ class BLEServiceAdapter(
         propertyName: String,
         propertyType: Int,
         propertyAction: Button,
-        propertyValue: TextView,
         propertyCallBack: (BluetoothGattCharacteristic) -> Unit
     ) {
         if ((characteristic.properties and propertyType) != 0) {
             properties.add(propertyName)
             propertyAction.isEnabled = true
             propertyAction.alpha = 1f
-            characteristic.value?.let {
-                val value = "Valeur : ${String(it)}"
-                propertyValue.visibility = View.VISIBLE
-                propertyValue.text = value
-            }
             propertyAction.setOnClickListener {
                 propertyCallBack.invoke(characteristic)
+            }
+        }
+    }
+
+    private fun addPropertyNotificationFromCharacteristic(
+        characteristic: BluetoothGattCharacteristic,
+        properties: ArrayList<String>,
+        propertyAction: Button,
+        propertyCallBack: (BluetoothGattCharacteristic, Boolean) -> Unit
+    ) {
+        if ((characteristic.properties and BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0) {
+            properties.add("Notifier")
+            propertyAction.isEnabled = true
+            propertyAction.alpha = 1f
+            val isNotificationEnable = characteristic.descriptors.any {
+                it.value?.contentEquals(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE) ?: false
+            }
+            if (isNotificationEnable) {
+                propertyAction.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                propertyAction.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+            } else {
+                propertyAction.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+                propertyAction.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
+            }
+            propertyAction.setOnClickListener {
+                propertyCallBack.invoke(characteristic, !isNotificationEnable)
             }
         }
     }
