@@ -1,5 +1,6 @@
 package fr.isen.mollinari.androidktntoolbox.ble
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -7,12 +8,14 @@ import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,10 +64,10 @@ class BLEScanActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (isBLEEnabled) {
-            scanLeDevice(false)
+    override fun onStop() {
+        super.onStop()
+        if (isBLEEnabled && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            scanLeDeviceWithPermission(false)
         }
     }
 
@@ -80,19 +83,19 @@ class BLEScanActivity : AppCompatActivity() {
 
         itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorPrimary))
         itemsswipetorefresh.setOnRefreshListener {
-            scanLeDevice(false)
-            scanLeDevice(true)
+            scanLeDeviceWithPermission(false)
+            scanLeDeviceWithPermission(true)
             itemsswipetorefresh.isRefreshing = false
         }
 
         handler = Handler()
 
-        scanLeDevice(true)
+        scanLeDeviceWithPermission(true)
         playPauseAction.setOnClickListener {
-            scanLeDevice(!mScanning)
+            scanLeDeviceWithPermission(!mScanning)
         }
         scanTitle.setOnClickListener {
-            scanLeDevice(!mScanning)
+            scanLeDeviceWithPermission(!mScanning)
         }
     }
 
@@ -116,6 +119,22 @@ class BLEScanActivity : AppCompatActivity() {
             scanTitle.text = getString(R.string.ble_scan_title_play)
             playPauseAction.setImageDrawable(
                 ContextCompat.getDrawable(this, android.R.drawable.ic_media_play)
+            )
+        }
+    }
+
+    private fun scanLeDeviceWithPermission(enable: Boolean) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            scanLeDevice(enable)
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                PERMISSIONS_REQUEST_LOCATION
             )
         }
     }
@@ -161,6 +180,7 @@ class BLEScanActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_ENABLE_BT = 44
+        private const val PERMISSIONS_REQUEST_LOCATION = 33
         private const val SCAN_PERIOD: Long = 20000
     }
 }

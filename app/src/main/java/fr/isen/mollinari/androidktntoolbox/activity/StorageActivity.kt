@@ -80,32 +80,42 @@ class StorageActivity : AppCompatActivity() {
     }
 
     private fun showDataFromFile() {
-        val dataJson = File(cacheDir.absolutePath + JSON_FILE).readText()
+        val jsonFile = File(cacheDir.absolutePath + JSON_FILE)
 
-        if (dataJson.isNotEmpty()) {
-            val jsonObject = JSONObject(dataJson)
+        if (jsonFile.exists()) {
 
-            val strDate = jsonObject.optString(DATE_KEY)
-            val strLastName = jsonObject.optString(LAST_NAME_KEY)
-            val strFirstName = jsonObject.optString(FIRST_NAME_KEY)
+            val dataJson = jsonFile.readText()
+            if (dataJson.isNotEmpty()) {
+                val jsonObject = JSONObject(dataJson)
 
-            val arrayStr =
-                strDate.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val age = getAge(
-                Integer.parseInt(arrayStr[0]),
-                Integer.parseInt(arrayStr[1]),
-                Integer.parseInt(arrayStr[2])
-            )
+                val strDate = jsonObject.optString(DATE_KEY)
+                val strLastName = jsonObject.optString(LAST_NAME_KEY)
+                val strFirstName = jsonObject.optString(FIRST_NAME_KEY)
 
-            AlertDialog.Builder(this@StorageActivity)
-                .setTitle("Lecture du fichier")
-                .setMessage("Nom: $strLastName \n Prenom : $strFirstName\n Date : $strDate\n Age: $age")
-                .create()
-                .show()
+                val arrayStr =
+                    strDate.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val age = getAge(
+                    Integer.parseInt(arrayStr[0]),
+                    Integer.parseInt(arrayStr[1]),
+                    Integer.parseInt(arrayStr[2])
+                )
+
+                AlertDialog.Builder(this@StorageActivity)
+                    .setTitle("Lecture du fichier")
+                    .setMessage("Nom: $strLastName \n Prenom : $strFirstName\n Date : $strDate\n Age: $age")
+                    .create()
+                    .show()
+            } else {
+                Toast.makeText(
+                    this@StorageActivity,
+                    "Aucune information fournie",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         } else {
             Toast.makeText(
                 this@StorageActivity,
-                "Aucune information fournie",
+                "Le fichier n'a pas encore été créé",
                 Toast.LENGTH_LONG
             ).show()
         }

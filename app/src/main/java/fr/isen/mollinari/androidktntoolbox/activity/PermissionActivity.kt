@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import fr.isen.mollinari.androidktntoolbox.R
 import fr.isen.mollinari.androidktntoolbox.adapter.ContactAdapter
 import kotlinx.android.synthetic.main.activity_permission.*
-import java.io.FileNotFoundException
 
 class PermissionActivity : AppCompatActivity(), LocationListener {
 
