@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.GsonBuilder
 import fr.isen.mollinari.androidktntoolbox.R
+import fr.isen.mollinari.androidktntoolbox.adapter.UsersAdapter
 import fr.isen.mollinari.androidktntoolbox.model.UserResults
 import kotlinx.android.synthetic.main.activity_web_service.recyclerView
 
@@ -33,7 +34,10 @@ class WebServiceActivity : AppCompatActivity() {
                 val userResults = parseUserResultJSON(response)
                 userResults?.results?.let {
 
-                    val mAdapter = UsersAdapter(it)
+                    val mAdapter =
+                        UsersAdapter(
+                            it
+                        )
                     val mLayoutManager =
                         LinearLayoutManager(applicationContext)
                     recyclerView.layoutManager = mLayoutManager

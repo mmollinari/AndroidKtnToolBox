@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidKtnToolBox</string>
+    <string name="app_name">AndroidToolBox</string>
 
     <string name="login_connection">Connexion</string>
     <string name="login_validate">Valider</string>
@@ -11,12 +11,13 @@
     <string name="home_save">Sauvegarde</string>
     <string name="home_permission">Permissions</string>
     <string name="home_webservices">Webservices</string>
+    <string name="home_ble">BLE</string>
 
     <string name="storage_title">Accès au fichier</string>
     <string name="storage_name">Nom</string>
     <string name="storage_first_name">Prenom</string>
     <string name="storage_date">Date : &#160;</string>
-    <string name="storage_date_value">../../..</string>
+    <string name="storage_date_value">.. / .. / ..</string>
     <string name="storage_age">Age : &#160;</string>
     <string name="storage_show">Lecture</string>
     <string name="storage_save">Sauvegarde</string>
@@ -24,4 +25,23 @@
     <string name="permission_title">Accès aux informations Android</string>
     <string name="permission_loading">Chargement de la position …</string>
     <string name="permission_location">Latitude : %1$f \nLongitude : %2$f</string>
+
+    <string name="ble_scan_title_play">Lancer le Scan BLE</string>
+    <string name="ble_scan_title_pause">Scan BLE en cours …</string>
+    <string name="ble_scan_error">Erreur lors du scan BLE</string>
+    <string name="ble_scan_missing">Votre téléphone n\'est pas compatible avec le BLE</string>
+    <string name="ble_scan_default_name">Appareil inconnu</string>
+
+    <string name="ble_device_status">Status : %1$s</string>
+    <string name="ble_device_status_connecting">Connexion en cours</string>
+    <string name="ble_device_status_connected">Connecté</string>
+    <string name="ble_device_status_disconnected">Déconnecté</string>
+    <string name="ble_device_status_disconnecting">Déconnexion en cours</string>
+
+    <string name="ble_device_characteristic_read">Lecture</string>
+    <string name="ble_device_characteristic_write">Ecrire</string>
+    <string name="ble_device_characteristic_notify">Notifier</string>
+    <string name="ble_device_write_characteristic_title">Ecrire la valeur</string>
+    <string name="ble_device_write_characteristic_confirm">Valider</string>
+    <string name="ble_device_write_characteristic_cancel">Annuler</string>
 </resources>

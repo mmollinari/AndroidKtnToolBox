@@ -1,4 +1,4 @@
-package fr.isen.mollinari.androidktntoolbox.activity
+package fr.isen.mollinari.androidktntoolbox.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import fr.isen.mollinari.androidktntoolbox.R
+import fr.isen.mollinari.androidktntoolbox.ble.BLEScanActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -29,6 +30,10 @@ class HomeActivity : AppCompatActivity() {
             goToActivity(WebServiceActivity::class.java)
         }
 
+        ble.setOnClickListener {
+            goToActivity(BLEScanActivity::class.java)
+        }
+
         logout.setOnClickListener {
             logOut()
         }
@@ -42,8 +47,7 @@ class HomeActivity : AppCompatActivity() {
     private fun logOut() {
         val sharedPreferences = getSharedPreferences(LoginActivity.USER_PREFS, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putString("id", "")
-        editor.putString("mdp", "")
+        editor.clear()
         editor.apply()
 
         val intent = Intent(this@HomeActivity, LoginActivity::class.java)
