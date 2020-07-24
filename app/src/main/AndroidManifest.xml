@@ -19,22 +19,56 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ble.BLEDeviceActivity"/>
-        <activity android:name=".ble.BLEScanActivity" />
-        <activity android:name=".activity.WebServiceActivity" />
-        <activity android:name=".activity.LoginActivity">
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.HomeActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.LifeCycleActivity" />
-        <activity android:name=".activity.StorageActivity" />
-        <activity android:name=".activity.PermissionActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".ble.BLEDeviceActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ble.BLEScanActivity"/>
+        <activity
+            android:name=".ble.BLEScanActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/home_ble"
+            android:parentActivityName=".activity.HomeActivity"/>
+        <activity
+            android:name=".activity.WebServiceActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/home_webservices"
+            android:parentActivityName=".activity.HomeActivity"/>
+
+        <activity
+            android:name=".activity.LifeCycleActivity"
+            android:label="@string/home_lifecycle"
+            android:parentActivityName=".activity.HomeActivity"/>
+
+        <activity
+            android:name=".activity.StorageActivity"
+            android:label="@string/home_save"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.HomeActivity"/>
+
+        <activity
+            android:name=".activity.PermissionActivity"
+            android:label="@string/home_permission"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activity.HomeActivity"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

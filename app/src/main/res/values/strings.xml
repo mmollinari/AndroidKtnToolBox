@@ -6,12 +6,14 @@
     <string name="login_login">Identifiant</string>
     <string name="login_password">Mot de passe</string>
 
-    <string name="home_welcome">Bonjour</string>
+    <string name="home_welcome">Bienvenue</string>
     <string name="home_lifecycle">Cycle de vie</string>
     <string name="home_save">Sauvegarde</string>
     <string name="home_permission">Permissions</string>
     <string name="home_webservices">Webservices</string>
     <string name="home_ble">BLE</string>
+
+    <string name="life_cycle_title">Affichage des logs</string>
 
     <string name="storage_title">Accès au fichier</string>
     <string name="storage_name">Nom</string>
@@ -22,9 +24,11 @@
     <string name="storage_show">Lecture</string>
     <string name="storage_save">Sauvegarde</string>
 
-    <string name="permission_title">Accès aux informations Android</string>
+    <string name="permission_title">Accès aux informations</string>
     <string name="permission_loading">Chargement de la position …</string>
     <string name="permission_location">Latitude : %1$f \nLongitude : %2$f</string>
+
+    <string name="webservice_title">Affichage des utilisateurs</string>
 
     <string name="ble_scan_title_play">Lancer le Scan BLE</string>
     <string name="ble_scan_title_pause">Scan BLE en cours …</string>

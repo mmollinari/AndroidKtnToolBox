@@ -14,23 +14,23 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        lifeCycle.setOnClickListener{
+        lifeCycleTitle.setOnClickListener{
             goToActivity(LifeCycleActivity::class.java)
         }
 
-        data.setOnClickListener {
+        saveTitle.setOnClickListener {
             goToActivity(StorageActivity::class.java)
         }
 
-        permission.setOnClickListener {
+        permissionTitle.setOnClickListener {
             goToActivity(PermissionActivity::class.java)
         }
 
-        webservice.setOnClickListener {
+        webserviceTitle.setOnClickListener {
             goToActivity(WebServiceActivity::class.java)
         }
 
-        ble.setOnClickListener {
+        bleTitle.setOnClickListener {
             goToActivity(BLEScanActivity::class.java)
         }
 
